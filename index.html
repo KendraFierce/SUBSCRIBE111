@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscribe to Notifications</title>
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <script>
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "36b91676-4a8f-43e5-87d1-02ff488aabf2",
+        allowLocalhostAsSecureOrigin: true
+      });
+    });
+
+    function subscribe() {
+      OneSignal.push(function() {
+        OneSignal.registerForPushNotifications()
+          .then(() => {
+            alert("You are now subscribed to notifications!");
+          })
+          .catch((err) => {
+            alert("Subscription failed: " + err);
+          });
+      });
+    }
+  </script>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 100px; }
+    button {
+      padding: 20px 40px;
+      font-size: 18px;
+      cursor: pointer;
+      background-color: #ff5a5f;
+      color: white;
+      border: none;
+      border-radius: 10px;
+    }
+    button:hover { background-color: #ff7b7f; }
+  </style>
+</head>
+<body>
+  <h1>Subscribe to Notifications</h1>
+  <p>Click the button below to receive updates:</p>
+  <button onclick="subscribe()">Subscribe Now</button>
+</body>
+</html>
