@@ -4,25 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Subscribe to Notifications</title>
-  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <!-- OneSignal Page SDK -->
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
-    window.OneSignal = window.OneSignal || [];
-    OneSignal.push(function() {
-      OneSignal.init({
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      await OneSignal.init({
         appId: "36b91676-4a8f-43e5-87d1-02ff488aabf2",
-        allowLocalhostAsSecureOrigin: true
       });
     });
 
-    function subscribe() {
-      OneSignal.push(function() {
-        OneSignal.registerForPushNotifications()
-          .then(() => {
-            alert("You are now subscribed to notifications!");
-          })
-          .catch((err) => {
-            alert("Subscription failed: " + err);
-          });
+    async function subscribe() {
+      OneSignalDeferred.push(async function(OneSignal) {
+        if (!OneSignal.isPushNotificationsSupported()) {
+          alert("Push notifications are not supported on this browser.");
+          return;
+        }
+        try {
+          await OneSignal.registerForPushNotifications();
+          alert("You are now subscribed to notifications!");
+        } catch (err) {
+          console.error(err);
+          alert("Subscription failed: " + err);
+        }
       });
     }
   </script>
